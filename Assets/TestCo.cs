@@ -2,17 +2,30 @@ using UnityEngine;
 
 public class TestCo : MonoBehaviour
 {
-    private const int numberOfItems = 10000;
-    private bool[] bools = new bool[numberOfItems];
-    public Test2 test2;
+    public int numberOfItems = 10000;
+    public TestDefaultUpdate testDefaultUpdate;
+    public TestTiming testTiming;
+    public bool UseTiming;
 
     void Start()
     {
-        for (int i = 0; i < numberOfItems; i++)
+        if (UseTiming)
         {
-            var t = Instantiate(test2);
-            t.name += " " + i;
-            t.id = i;
+            for (int i = 0; i < numberOfItems; i++)
+            {
+                var t = Instantiate(testTiming);
+                t.name += " " + i;
+                t.id = i;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < numberOfItems; i++)
+            {
+                var t = Instantiate(testDefaultUpdate);
+                t.name += " " + i;
+                t.id = i;
+            }
         }
     }
 }

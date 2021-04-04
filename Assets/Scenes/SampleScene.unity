@@ -217,10 +217,9 @@ GameObject:
   - component: {fileID: 2063548835}
   - component: {fileID: 2063548834}
   - component: {fileID: 2063548833}
-  - component: {fileID: 2063548836}
   - component: {fileID: 2063548837}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -238,7 +237,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f09893710edb6147b3d2da43ab7016a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test2: {fileID: 7552200635177285179, guid: 55dabf06b9e8e2948904290607e18a33, type: 3}
+  numberOfItems: 10000
+  testDefaultUpdate: {fileID: 8665611801072359538, guid: e8200fb8353519d44a7937a9b73380f0, type: 3}
+  testTiming: {fileID: 8785142684848625012, guid: 66966e3fb1c3c854e912cb580d1f7bb5, type: 3}
+  UseTiming: 0
 --- !u!212 &2063548834
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -304,25 +306,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2063548836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2063548832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d2433f4570c1404da40af9ea0b12741, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TimeBetweenSlowUpdateCalls: 0.14285715
-  ProfilerDebugAmount: 1
-  UpdateCoroutines: 0
-  FixedUpdateCoroutines: 0
-  LateUpdateCoroutines: 0
-  SlowUpdateCoroutines: 0
-  _instanceID: 0
 --- !u!114 &2063548837
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -34,7 +34,7 @@ public class TimingManager : MonoBehaviour
 
 public abstract class UpdateBehaviour : MonoBehaviour
 {
-    protected Action onUpdate;
+    private Action onUpdate;
     private bool updateActive;
 
     public virtual void TimingUpdate()
@@ -45,7 +45,22 @@ public abstract class UpdateBehaviour : MonoBehaviour
         }
     }
 
-    protected void Resume() { updateActive = true; }
+    protected void Set(Action onUpdate, bool start = false)
+    {
+        this.onUpdate = onUpdate;
+        if (start)
+        {
+            Resume();
+        }
+    }
+
+    protected void Resume()
+    {
+        if (onUpdate != null)
+        {
+            updateActive = true;
+        }
+    }
 
     protected void Pause() { updateActive = false; }
 
@@ -76,70 +91,71 @@ public abstract class TimingBehaviour : UpdateBehaviour
         timerFunctions.Add(timerFunction);
         return timerFunction;
     }
-}
 
-public class TimerFunction
-{
-    public int Ticks;
-    private readonly Action action;
-    private float timer;
-    private float baseTimer;
-    private readonly bool periodic;
-    private readonly bool useUnscaledDeltaTime;
-    private bool updateActive;
-    private bool stopped;
-
-    public TimerFunction(Action action, float timer, bool periodic, bool useUnscaledDeltaTime)
+    protected class TimerFunction
     {
-        this.action = action;
-        this.timer = timer;
-        baseTimer = timer;
-        this.periodic = periodic;
-        this.useUnscaledDeltaTime = useUnscaledDeltaTime;
-        updateActive = true;
-    }
+        public int Ticks;
+        private readonly Action action;
+        private float timer;
+        private float baseTimer;
+        private readonly bool periodic;
+        private readonly bool useUnscaledDeltaTime;
+        private bool updateActive;
+        private bool stopped;
 
-    public void SkipTimerTo(float timer)
-    {
-        this.timer = timer;
-        baseTimer = timer;
-    }
-
-    public bool TimingUpdate()
-    {
-        if (stopped)
+        public TimerFunction(Action action, float timer, bool periodic, bool useUnscaledDeltaTime)
         {
-            return true;
+            this.action = action;
+            this.timer = timer;
+            baseTimer = timer;
+            this.periodic = periodic;
+            this.useUnscaledDeltaTime = useUnscaledDeltaTime;
+            updateActive = true;
         }
-        if (updateActive)
+
+        public void SkipTimerTo(float timer)
         {
-            if (useUnscaledDeltaTime)
+            this.timer = timer;
+            baseTimer = timer;
+        }
+
+        public bool TimingUpdate()
+        {
+            if (stopped)
             {
-                timer -= Time.unscaledDeltaTime;
+                return true;
             }
-            else
+            if (updateActive)
             {
-                timer -= Time.deltaTime;
-            }
-            if (timer <= 0)
-            {
-                Ticks++;
-                action();
-                if (periodic)
+                if (useUnscaledDeltaTime)
                 {
-                    timer = baseTimer;
-                } else
+                    timer -= Time.unscaledDeltaTime;
+                }
+                else
                 {
-                    return true;
+                    timer -= Time.deltaTime;
+                }
+                if (timer <= 0)
+                {
+                    Ticks++;
+                    action();
+                    if (periodic)
+                    {
+                        timer = baseTimer;
+                    }
+                    else
+                    {
+                        return true;
+                    }
                 }
             }
+            return false;
         }
-        return false;
+
+        public void Resume() { updateActive = true; }
+
+        public void Pause() { updateActive = false; }
+
+        public void Stop() { stopped = true; }
     }
-
-    public void Resume() { updateActive = true; }
-
-    public void Pause() { updateActive = false; }
-
-    public void Stop() { stopped = true; }
 }
