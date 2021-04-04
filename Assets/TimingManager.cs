@@ -61,14 +61,11 @@ public abstract class TimingBehaviour : UpdateBehaviour
     public override void TimingUpdate()
     {
         base.TimingUpdate();
-        if (timerFunctions.Count > 0)
+        for (int i = 0; i < timerFunctions.Count; i++)
         {
-            for (int i = 0; i < timerFunctions.Count; i++)
+            if (timerFunctions[i].TimingUpdate())
             {
-                if (timerFunctions[i].TimingUpdate())
-                {
-                    timerFunctions.RemoveAt(i--);
-                }
+                timerFunctions.RemoveAt(i--);
             }
         }
     }
